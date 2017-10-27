@@ -37,14 +37,18 @@
 
 - (void) getPopularMoviesWithLanguage:(NSString*)language region:(NSString*)region {
     
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    dispatch_async_on_main_queue(^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    });
     
     if(self.pageNumber == nil) self.pageNumber = @(1);
     
     [self.appModel.client getPopularMoviesWithLanguage:language page:@([self.pageNumber integerValue] + 1) region:region completion:^(NSDictionary *responseDictionary, NSError *error) {
         
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        dispatch_async_on_main_queue(^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        });
+
         
         if (!error) {
             

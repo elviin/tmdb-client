@@ -67,11 +67,18 @@ typedef NS_ENUM(NSInteger, USTAppModelDetailScreenIndex) {
                                   self.film.poster_path,
                                   [[USTAppModel appModel] serverApiKey]];
             
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+            
+            
+            dispatch_async_on_main_queue(^{
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+            });
             
             [USTAppUtils downloadImageWithURL:imageUrl completionBlock:^(BOOL succeeded, UIImage *image, NSData* data) {
                 
-                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                dispatch_async_on_main_queue(^{
+                    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                });
+
                 
                 if (succeeded) {
                     
