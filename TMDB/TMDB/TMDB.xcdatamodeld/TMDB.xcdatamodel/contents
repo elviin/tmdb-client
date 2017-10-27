@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16C67" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="USTModelEntity" representedClassName="USTModelEntity" syncable="YES" codeGenerationType="class"/>
+    <entity name="USTModelEntityFilm" representedClassName="USTModelEntityFilm" parentEntity="USTModelEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="adult" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="backdrop_path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="entityId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="original_language" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="original_title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="popularity" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="poster_path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="release_date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO">
+            <userInfo/>
+        </attribute>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="video" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="vote_average" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="vote_count" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="backdrop_path_image_data" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="USTModelEntityImageDataBackdrop" inverseName="film" inverseEntity="USTModelEntityImageDataBackdrop" syncable="YES"/>
+        <relationship name="genre_ids" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="USTModelEntityGenreId" inverseName="film" inverseEntity="USTModelEntityGenreId" syncable="YES"/>
+        <relationship name="poster_path_image_data" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="USTModelEntityImageDataPoster" inverseName="film" inverseEntity="USTModelEntityImageDataPoster" syncable="YES"/>
+        <relationship name="poster_path_image_data_detail" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="USTModelEntityImageDataPosterDetail" inverseName="film" inverseEntity="USTModelEntityImageDataPosterDetail" syncable="YES"/>
+    </entity>
+    <entity name="USTModelEntityGenreId" representedClassName="USTModelEntityGenreId" parentEntity="USTModelEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="genreId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="film" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="USTModelEntityFilm" inverseName="genre_ids" inverseEntity="USTModelEntityFilm" syncable="YES"/>
+    </entity>
+    <entity name="USTModelEntityImageDataBackdrop" representedClassName="USTModelEntityImageData" parentEntity="USTModelEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="binary_data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="film" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="USTModelEntityFilm" inverseName="backdrop_path_image_data" inverseEntity="USTModelEntityFilm" syncable="YES"/>
+    </entity>
+    <entity name="USTModelEntityImageDataPoster" representedClassName="USTModelEntityImageDataPoster" parentEntity="USTModelEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="binary_data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="film" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="USTModelEntityFilm" inverseName="poster_path_image_data" inverseEntity="USTModelEntityFilm" syncable="YES"/>
+    </entity>
+    <entity name="USTModelEntityImageDataPosterDetail" representedClassName="USTModelEntityImageDataPosterDetail" parentEntity="USTModelEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="binary_data" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <relationship name="film" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="USTModelEntityFilm" inverseName="poster_path_image_data_detail" inverseEntity="USTModelEntityFilm" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="USTModelEntity" positionX="261" positionY="198" width="128" height="45"/>
+        <element name="USTModelEntityFilm" positionX="270" positionY="207" width="128" height="315"/>
+        <element name="USTModelEntityGenreId" positionX="288" positionY="261" width="128" height="75"/>
+        <element name="USTModelEntityImageDataBackdrop" positionX="279" positionY="342" width="128" height="75"/>
+        <element name="USTModelEntityImageDataPoster" positionX="279" positionY="333" width="128" height="75"/>
+        <element name="USTModelEntityImageDataPosterDetail" positionX="279" positionY="342" width="128" height="75"/>
+    </elements>
+</model>
