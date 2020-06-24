@@ -23,7 +23,7 @@ NSString *const USTClientRemoteServiceImageSize_w780        = @"w780";
 NSString *const USTClientRemoteServiceImageSize_original    = @"original";
 
 
-static NSString* const USTClientRemoteServiceTMDbApiKey         = @"4aa883f95999ec813b8bfaf319f3972b";
+static NSString* const USTClientRemoteServiceTMDbApiKey         = @"ad03847768c0ea6e2262d315935b4c32";
 static NSString* const USTClientRemoteServiceTMDbApiVersion     = @"3";
 static NSString* const USTClientRemoteServiceTMDbServer         = @"api.themoviedb.org";
 static NSString* const USTClientRemoteServiceTMDbServerImages   = @"image.tmdb.org/t/p"; //http--> added exception in the plist
@@ -79,8 +79,10 @@ static NSString* const USTClientRemoteServiceTMDbServerImages   = @"image.tmdb.o
     
     // Post data //TODO should be added body configuration for POST, PUT, etc
     // For this GET case this code is enough
-    NSData *postData = [[NSData alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
-    [request setHTTPBody:postData];
+    if ([method isEqualToString:USTClientRemoteServiceHTTPMethodGET] == NO) {
+        NSData *postData = [[NSData alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setHTTPBody:postData];
+    }
 
     
     // Initialize the session task

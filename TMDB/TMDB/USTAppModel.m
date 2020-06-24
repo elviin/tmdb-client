@@ -90,37 +90,54 @@ static USTAppModel *sharedInstance;
 
 }
 
+
 - (NSPersistentContainer *)persistentContainerWithCompletion:(void (^)(NSPersistentStoreDescription *storeDescription, NSError * _Nullable error))block {
     // The persistent container for the application. This implementation creates and returns a container, having loaded the store for the application to it.
     @synchronized (self) {
+
         if (_persistentContainer == nil) {
-            _persistentContainer = [[NSPersistentContainer alloc] initWithName:@"TMDB"];
-            [_persistentContainer loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription *storeDescription, NSError *error) {
-                if (error != nil) {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    
-                    /*
-                     Typical reasons for an error here include:
-                     * The parent directory does not exist, cannot be created, or disallows writing.
-                     * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                     * The device is out of space.
-                     * The store could not be migrated to the current model version.
-                     Check the error message to determine what the actual problem was.
-                     */
-                    NSLog(@"Unresolved error %@, %@", error, error.userInfo);
-                    abort();
-                    
-                } else {
-                    
-                    if(block) block(storeDescription, error);
-                }
-            }];
+
+            NSString *modelName = @"TMDB";
+
+            if (@available(iOS 13, *)) {
+
+                _persistentContainer = [NSPersistentContainer persistentContainerWithName: modelName];
+                [_persistentContainer loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription *storeDescription, NSError *error) {
+                    if (error != nil) {
+                        NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+                        abort();
+                    } else {
+                        if(block) block(self->_persistentContainer.persistentStoreDescriptions.firstObject, nil);
+                    }
+                }];
+
+            } else {
+
+                NSString *modelURLPath = [[NSBundle mainBundle] pathForResource: modelName ofType: @"momd"];
+
+                NSURL *modelURL = [NSURL fileURLWithPath: modelURLPath];
+
+                NSURL *versionInfoURL = [modelURL URLByAppendingPathComponent: @"VersionInfo.plist"];
+
+                NSDictionary *versionInfoNSDictionary = [NSDictionary dictionaryWithContentsOfURL: versionInfoURL];
+
+                NSString *version = versionInfoNSDictionary[@"NSManagedObjectModel_CurrentVersionName"];
+
+                modelURL = [modelURL URLByAppendingPathComponent:[NSString stringWithFormat: @"%@.mom", version]];
+
+                NSManagedObjectModel *mod = [[NSManagedObjectModel alloc] initWithContentsOfURL: modelURL];
+
+                _persistentContainer = [NSPersistentContainer persistentContainerWithName: modelName managedObjectModel: mod];
+                
+                if(block) block(self->_persistentContainer.persistentStoreDescriptions.firstObject, nil);
+            }
         }
     }
-    
+
     return _persistentContainer;
 }
+
+
 
 
 #pragma mark - ------------- Core Data Saving support -------------

@@ -32,15 +32,16 @@
     // Setup the persistent store
     [self.appModel persistentContainerWithCompletion:^(NSPersistentStoreDescription * _Null_unspecified storeDescription , NSError * _Nullable error) {
 
-        // Check the online status
-        //[self setupConnectionStatusNotification];
+        NSLog(@"Loaded store: %@", storeDescription);
+
+        // Setup the root view controller
+        UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+        UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+        navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+        splitViewController.delegate = self;
+
     }];
     
-    // Setup the root view controller
-    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-    navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
-    splitViewController.delegate = self;
 
     
     return YES;
